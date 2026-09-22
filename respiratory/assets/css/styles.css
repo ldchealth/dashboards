@@ -1,0 +1,358 @@
+/* ==========================================================================
+   Lawrence-Douglas County Public Health — Respiratory Surveillance Dashboard
+   Brand-driven, mobile-first stylesheet
+   ========================================================================== */
+
+:root {
+  /* ---- Core logo colors ---- */
+  --brand-orange: #f3711b;
+  --brand-slate:  #707a83;
+  --brand-sky:    #a0ddfc;
+  --brand-blue:   #1776bc;
+
+  /* ---- Extended palette ---- */
+  --ext-navy:     #2d4a76;
+  --ext-peach:    #ff9d72;
+  --ext-maroon:   #642e35;
+  --ext-plum:     #544e64;
+  --ext-tan:      #a15e26;
+  --ext-teal:     #48a69a;
+  --ext-gold:     #e7ac08;
+  --ext-green:    #80c586;
+  --ext-coral:    #e05f4a;
+  --ext-brown:    #734842;
+  --ext-pink:     #e7738b;
+  --ext-olive:    #75782f;
+  --ext-purple:   #7e4d7f;
+  --ext-berry:    #9c2638;
+  --ext-lilac:    #bca6ca;
+  --ext-gray:     #575757;
+  --ext-yellow:   #d6d259;
+  --ext-mauve:    #c976a1;
+  --ext-emerald:  #438675;
+  --ext-moss:     #919741;
+
+  /* ---- Semantic assignments ---- */
+  --color-text:       #26292c;
+  --color-text-soft:  var(--ext-gray);
+  --color-bg:         #f7f9fa;
+  --color-surface:    #ffffff;
+  --color-border:     #e2e6e9;
+  --color-accent:     var(--brand-orange);
+  --color-primary:    var(--brand-blue);
+  --color-primary-dk: var(--ext-navy);
+
+  /* Pathogen color coding — used consistently across ED + wastewater charts */
+  --covid-strong: var(--brand-orange);
+  --covid-soft:   var(--ext-peach);
+  --flu-strong:   var(--brand-blue);
+  --flu-soft:     var(--brand-sky);
+  --rsv-strong:   var(--ext-teal);
+  --rsv-soft:     var(--ext-green);
+
+  --radius: 14px;
+  --shadow: 0 1px 2px rgba(20, 30, 40, 0.06), 0 4px 16px rgba(20, 30, 40, 0.06);
+  --maxw: 1180px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+a { color: var(--color-primary); }
+
+.container {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 32px);
+}
+
+/* ---------------------------------- Skip link ---------------------------------- */
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--color-primary);
+  color: #fff;
+  padding: 10px 16px;
+  z-index: 1000;
+}
+.skip-link:focus { left: 8px; top: 8px; border-radius: 8px; }
+
+/* ---------------------------------- Header / Nav ---------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-surface);
+  border-bottom: 3px solid var(--color-accent);
+  box-shadow: var(--shadow);
+}
+
+.header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px clamp(16px, 4vw, 32px);
+  max-width: var(--maxw);
+  margin: 0 auto;
+  gap: 12px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.brand__logo {
+  width: 42px;
+  height: 42px;
+  flex: none;
+  border-radius: 10px;
+}
+
+.brand__text { min-width: 0; }
+.brand__agency {
+  display: block;
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: var(--color-primary-dk);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.brand__tagline {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--color-text-soft);
+  white-space: nowrap;
+}
+
+.nav-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  cursor: pointer;
+}
+.nav-toggle span,
+.nav-toggle::before,
+.nav-toggle::after {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--color-primary-dk);
+  border-radius: 2px;
+  position: relative;
+}
+.nav-toggle::before { transform: translateY(-6px); }
+.nav-toggle::after  { transform: translateY(4px); }
+
+.main-nav {
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+}
+.main-nav.is-open { display: flex; }
+
+.main-nav a {
+  display: block;
+  padding: 12px clamp(16px, 4vw, 32px);
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 0.92rem;
+  border-left: 3px solid transparent;
+}
+.main-nav a:hover,
+.main-nav a:focus {
+  background: var(--color-bg);
+  border-left-color: var(--color-accent);
+  color: var(--color-primary-dk);
+}
+
+@media (min-width: 860px) {
+  .nav-toggle { display: none; }
+  .main-nav {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    border-top: none;
+    background: none;
+  }
+  .main-nav a { border-left: none; border-bottom: 3px solid transparent; padding: 10px 14px; }
+  .main-nav a:hover, .main-nav a:focus { border-left: none; border-bottom-color: var(--color-accent); background: none; }
+}
+
+/* ---------------------------------- Hero ---------------------------------- */
+.hero {
+  background: linear-gradient(120deg, var(--color-primary-dk) 0%, var(--color-primary) 65%, var(--brand-sky) 150%);
+  color: #fff;
+  padding: clamp(28px, 6vw, 48px) 0;
+}
+.hero h1 {
+  margin: 0 0 8px;
+  font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+}
+.hero p {
+  margin: 0;
+  max-width: 62ch;
+  color: rgba(255,255,255,0.9);
+  font-size: clamp(0.92rem, 1.6vw, 1.02rem);
+}
+.hero__meta {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.35);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.badge__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--brand-orange); }
+
+/* ---------------------------------- Section framing ---------------------------------- */
+.section { padding: clamp(28px, 5vw, 44px) 0; }
+.section + .section { border-top: 1px solid var(--color-border); }
+.section-title {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 6px;
+  font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+  color: var(--color-primary-dk);
+}
+.section-sub {
+  margin: 0 0 22px;
+  color: var(--color-text-soft);
+  font-size: 0.92rem;
+  max-width: 72ch;
+}
+
+/* ---------------------------------- Narrative summary ---------------------------------- */
+.narrative-box {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 5px solid var(--color-primary);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: clamp(16px, 3vw, 26px) clamp(18px, 3.5vw, 30px);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text);
+}
+.narrative-box b,
+.narrative-box strong { color: var(--color-primary-dk); }
+.narrative-box hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 14px 0;
+}
+.narrative-box p { margin: 0 0 10px; }
+.narrative-box p:last-child { margin-bottom: 0; }
+
+/* ---------------------------------- Pathogen cards ---------------------------------- */
+.pathogen-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px clamp(14px, 3vw, 24px) 22px;
+  margin-bottom: 22px;
+  scroll-margin-top: 96px;
+}
+.pathogen-card__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.pathogen-card__dot { width: 14px; height: 14px; border-radius: 4px; background: var(--tone, var(--color-accent)); flex: none; }
+.pathogen-card__title { margin: 0; font-size: 1.15rem; color: var(--color-text); }
+.pathogen-card__desc { margin: 2px 0 16px; color: var(--color-text-soft); font-size: 0.88rem; }
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+@media (min-width: 900px) {
+  .chart-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.chart-box h3 {
+  margin: 0 0 8px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--color-primary-dk);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.chart-wrap {
+  position: relative;
+  height: 260px;
+  background: var(--color-bg);
+  border-radius: 10px;
+  padding: 10px 8px 4px;
+}
+@media (min-width: 640px) { .chart-wrap { height: 300px; } }
+
+.legend-note { font-size: 0.75rem; color: var(--color-text-soft); margin-top: 6px; }
+
+/* ---------------------------------- About / footer ---------------------------------- */
+.about-list { padding-left: 1.1em; color: var(--color-text-soft); font-size: 0.92rem; }
+.about-list li { margin-bottom: 8px; }
+
+.site-footer {
+  background: var(--color-primary-dk);
+  color: rgba(255,255,255,0.85);
+  padding: 26px 0;
+  font-size: 0.85rem;
+}
+.site-footer a { color: var(--brand-sky); }
+.footer-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ---------------------------------- Utility ---------------------------------- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.state-msg { text-align: center; color: var(--color-text-soft); padding: 24px; font-size: 0.9rem; }

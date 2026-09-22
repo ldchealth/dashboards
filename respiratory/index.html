@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Respiratory Illness Surveillance Dashboard | Lawrence-Douglas County Public Health</title>
+<meta name="description" content="Weekly emergency department visit rates and wastewater surveillance trends for COVID-19, Influenza, and RSV in Lawrence-Douglas County.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <div class="header-bar">
+    <a class="brand" href="https://ldchealth.org/">
+      <img class="brand__logo" src="assets/img/logo.svg" alt="Lawrence-Douglas County Public Health logo">
+      <span class="brand__text">
+        <span class="brand__agency">Lawrence-Douglas County Public Health</span>
+        <span class="brand__tagline">Respiratory Illness Surveillance</span>
+      </span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="mainNav" aria-label="Toggle navigation menu"></button>
+  </div>
+  <nav class="main-nav" id="mainNav">
+    <a href="#summary">Current Situation</a>
+    <a href="#covid">COVID-19</a>
+    <a href="#influenza">Influenza</a>
+    <a href="#rsv">RSV</a>
+    <a href="#about">About the Data</a>
+  </nav>
+</header>
+
+<main id="main">
+  <div id="top"></div>
+  <section class="hero">
+    <div class="container">
+      <h1>Respiratory Illness Surveillance Dashboard</h1>
+      <p>Weekly emergency department (ED) visits and wastewater trends for COVID-19, influenza, and Respiratory Syncitial Virus (RSV) among residents of Douglas County, Kansas.</p>
+      <div class="hero__meta">
+        <span class="badge"><span class="badge__dot"></span> Data updated <span id="lastUpdated">—</span></span>
+        <span class="badge">Sources: ESSENCE Syndromic Surveillance Data System &middot; WastewaterSCAN public data</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="summary">
+    <div class="container">
+      <h2 class="section-title">Current Situation</h2>
+      <!-- <p class="section-sub">A short narrative update from LDCPH staff, reflecting the latest interpretation of the data below.</p> -->
+      <div class="narrative-box" id="narrativeBox">
+        <p class="state-msg">Loading current summary…</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="covid">
+    <div class="container">
+      <h2 class="section-title">COVID-19</h2>
+      <p class="section-sub">Percentage of weekly ED visits due to COVID compared with the same weeks last year, alongside wastewater trends.</p>
+      <div class="pathogen-card" data-pathogen="covid" style="--tone:var(--covid-strong)">
+        <div class="pathogen-card__head">
+          <span class="pathogen-card__dot"></span>
+          <h3 class="pathogen-card__title">COVID-19 Trends</h3>
+        </div>
+        <p class="pathogen-card__desc">ED visit rate (as a percentage of all ED visits) and wastewater viral activity level. Both charts share the same date range and tick marks for easy side-by-side reading.</p>
+        <div class="chart-grid">
+          <div class="chart-box">
+            <h3>ED Visit Rate — This Year vs. Last Year</h3>
+            <div class="chart-wrap"><canvas id="chart-covid-ed"></canvas></div>
+            <p class="legend-note">Solid = current season &nbsp;·&nbsp; Dashed = same weeks, prior year</p>
+          </div>
+          <div class="chart-box">
+            <h3>Wastewater Surveillance</h3>
+            <div class="chart-wrap"><canvas id="chart-covid-ww"></canvas></div>
+            <p class="legend-note">DNA is sampled from municipal water treatment facilities. Samples are analyzed and available publicly from <a href="https://data.wastewaterscan.org">WastewaterSCAN</a>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="influenza">
+    <div class="container">
+      <h2 class="section-title">Influenza</h2>
+      <p class="section-sub">Percentage of weekly ED visits due to Influenza compared with the same weeks last year, alongside wastewater trends.</p>
+      <div class="pathogen-card" data-pathogen="influenza" style="--tone:var(--flu-strong)">
+        <div class="pathogen-card__head">
+          <span class="pathogen-card__dot"></span>
+          <h3 class="pathogen-card__title">Influenza Trends</h3>
+        </div>
+        <p class="pathogen-card__desc">ED visit rate (as a percentage of all ED visits) and wastewater viral activity level. Both charts share the same date range and tick marks for easy side-by-side reading.</p>
+        <div class="chart-grid">
+          <div class="chart-box">
+            <h3>ED Visit Rate — This Year vs. Last Year</h3>
+            <div class="chart-wrap"><canvas id="chart-influenza-ed"></canvas></div>
+            <p class="legend-note">Solid = current season &nbsp;·&nbsp; Dashed = same weeks, prior year</p>
+          </div>
+          <div class="chart-box">
+            <h3>Wastewater Surveillance</h3>
+            <div class="chart-wrap"><canvas id="chart-influenza-ww"></canvas></div>
+            <p class="legend-note">DNA is sampled from municipal water treatment facilities. Samples are analyzed and available publicly from <a href="https://data.wastewaterscan.org">WastewaterSCAN</a>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="rsv">
+    <div class="container">
+      <h2 class="section-title">RSV</h2>
+      <p class="section-sub">Percentage of weekly ED visits due to RSV compared with the same weeks last year, alongside wastewater trends.</p>
+      <div class="pathogen-card" data-pathogen="rsv" style="--tone:var(--rsv-strong)">
+        <div class="pathogen-card__head">
+          <span class="pathogen-card__dot"></span>
+          <h3 class="pathogen-card__title">RSV Trends</h3>
+        </div>
+        <p class="pathogen-card__desc">ED visit rate (as a percentage of all ED visits) and wastewater viral activity level. Both charts share the same date range and tick marks for easy side-by-side reading.</p>
+        <div class="chart-grid">
+          <div class="chart-box">
+            <h3>ED Visit Rate — This Year vs. Last Year</h3>
+            <div class="chart-wrap"><canvas id="chart-rsv-ed"></canvas></div>
+            <p class="legend-note">Solid = current season &nbsp;·&nbsp; Dashed = same weeks, prior year</p>
+          </div>
+          <div class="chart-box">
+            <h3>Wastewater Surveillance</h3>
+            <div class="chart-wrap"><canvas id="chart-rsv-ww"></canvas></div>
+            <p class="legend-note">DNA is sampled from municipal water treatment facilities. Samples are analyzed and available publicly from <a href="https://data.wastewaterscan.org">WastewaterSCAN</a>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="container">
+      <h2 class="section-title">About This Data</h2>
+      <ul class="about-list">
+        <li><strong>ED visit rates</strong> are aggregated weekly from emergency departments and urgent care facilities participating in the national syndromic surveillance program. </li>
+        <li><strong>Wastewater surveillance</strong> reflects viral genetic material measured in sewage samples, an early indicator of community transmission that is independent of testing or healthcare-seeking behavior. Samples are collected by the City of Lawrence and submitted for analysis to <a href="https://data.wastewaterscan.org">WastewaterSCAN</a>, a nationwide wastewater monitoring program based at Standord University in partnership with Emory University.</li>
+        <li>During the flu season (October through May) LDCPH refreshes this data on a weekly basis; see the "Data updated" badge above for the most recent refresh date.</li>
+        <li>This dashboard is for general public health situational awareness and should not be used for individual medical decision-making.</li>
+        <li>This content was developed with the aid of one or more Artificial Intelligence (AI) tools, primarily to generate HTML, CSS and Javascript code. Human oversight was applied to review and verify the output.</li>
+</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <span><span id="year"></span> Lawrence-Douglas County Public Health</span>
+    <span><a href="https://www.ldchealth.org" target="_blank" rel="noopener">ldchealth.org</a></span>
+  </div>
+</footer>
+
+<script src="assets/js/vendor/chart.min.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
