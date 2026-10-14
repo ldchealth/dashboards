@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Lawrence-Douglas County Public Health — Dashboard logic
+   Lawrence-Douglas County Public Health â€” Dashboard logic
    Loads three static JSON files (produced by the Jupyter notebook) and
    renders responsive Chart.js line charts, plus a staff-authored narrative.
    No build step, no CDN needed.
@@ -273,7 +273,7 @@
     });
   }
 
-  // Shared by BOTH chart types — both use the same linear epoch-day x-axis,
+  // Shared by BOTH chart types â€” both use the same linear epoch-day x-axis,
   // so the tooltip title is always derived from that axis via formatEpochDay.
   // (Previously this was conditional on a `titleFromEpoch` flag that was only
   // passed for the wastewater chart, which is why ED tooltips were showing
