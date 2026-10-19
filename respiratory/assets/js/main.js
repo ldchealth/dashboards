@@ -56,6 +56,63 @@
   Chart.defaults.font.size = 11;
   Chart.defaults.color = "#575757";
 
+
+  function addInfluenzaChartStyles() {
+    const style = document.createElement("style");
+
+    style.textContent = `
+      .flu-wastewater-grid {
+        display: grid;
+        grid-template-columns:
+          repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+        width: 100%;
+      }
+
+      .flu-wastewater-panel {
+        min-width: 0;
+        padding: 0.75rem;
+        border: 1px solid #e2e6e9;
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .flu-wastewater-title {
+        margin: 0 0 0.5rem;
+        font-size: 0.95rem;
+        font-weight: 650;
+        text-align: center;
+        color: #3d4348;
+      }
+
+      .flu-wastewater-canvas-wrap {
+        position: relative;
+        width: 100%;
+        height: 275px;
+      }
+
+      @media (max-width: 700px) {
+        .flu-wastewater-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .flu-wastewater-canvas-wrap {
+          height: 250px;
+        }
+      }
+    `;
+
+    document.head.appendChild(style);
+  }
+
+  
+  document.getElementById("year").textContent =
+    new Date().getFullYear();
+  
+  
+  addInfluenzaChartStyles();
+
+  
   function hexToRgba(hex, alpha) {
     const h = hex.replace("#", "");
     const bigint = parseInt(h, 16);
@@ -78,26 +135,75 @@
       // Reads the "illnesses" array (renamed from "pathogens") in both
       // ed_visits.json and wastewater.json.
       Object.keys(PATHOGEN_META).forEach((key) => {
-        const edSeries = findPathogen(edData.illnesses, key);
-        const wwSeries = findPathogen(wwData.illnesses, key);
-        if (!edSeries || !wwSeries) return;
+      const edSeries = findPathogen(edData.illnesses, key);
 
-        // Optional prior-year wastewater support: if wwSeries.previous_points
-        // exists, those dates get shifted forward a year so they land on the
-        // same "point in the season" x-position as this year's data, and are
-        // included in the shared axis range. If it doesn't exist, this is a
-        // no-op and behaves exactly like a single-series wastewater chart.
-        const wwCurrentPoints = wwSeries.points || [];
-        const wwPreviousPoints = wwSeries.previous_points || [];
-        const wwDatesForAxis = [
-          ...wwCurrentPoints.map((p) => p.date),
-          ...wwPreviousPoints.map((p) => shiftToCurrentYear(p.date)),
+      if (!edSeries) return;
+
+      // Influenza wastewater is stored as two distinct series:
+      // flua and flub. Render them as separate charts with
+      // independent vertical axes.
+      if (key === "influenza") {
+        const fluASeries = findPathogen(wwData.illnesses, "flua");
+        const fluBSeries = findPathogen(wwData.illnesses, "flub");
+
+        if (!fluASeries || !fluBSeries) return;
+
+        const fluWastewaterDates = [
+          ...(fluASeries.points || []).map((p) => p.date),
+          ...(fluASeries.previous_points || []).map((p) =>
+            shiftToCurrentYear(p.date)
+          ),
+          ...(fluBSeries.points || []).map((p) => p.date),
+          ...(fluBSeries.previous_points || []).map((p) =>
+            shiftToCurrentYear(p.date)
+          ),
         ];
 
-        const shared = computeSharedXAxis(edSeries.dates, wwDatesForAxis);
+        const shared = computeSharedXAxis(
+          edSeries.dates,
+          fluWastewaterDates
+        );
+
         renderEdChart(key, edSeries, edData.unit, shared);
-        renderWastewaterChart(key, wwSeries, wwData.unit, shared);
-      });
+
+        renderInfluenzaWastewaterCharts(
+          fluASeries,
+          fluBSeries,
+          wwData.unit,
+          shared
+        );
+
+        return;
+      }
+
+      // COVID-19 and RSV each have one wastewater series.
+      const wwSeries = findPathogen(wwData.illnesses, key);
+
+      if (!wwSeries) return;
+
+      const wwCurrentPoints = wwSeries.points || [];
+      const wwPreviousPoints = wwSeries.previous_points || [];
+
+      const wwDatesForAxis = [
+        ...wwCurrentPoints.map((p) => p.date),
+        ...wwPreviousPoints.map((p) =>
+          shiftToCurrentYear(p.date)
+        ),
+      ];
+
+      const shared = computeSharedXAxis(
+        edSeries.dates,
+        wwDatesForAxis
+      );
+
+      renderEdChart(key, edSeries, edData.unit, shared);
+      renderWastewaterChart(
+        key,
+        wwSeries,
+        wwData.unit,
+        shared
+      );
+    });
     })
     .catch((err) => {
       console.error("Failed to load dashboard data:", err);
@@ -220,23 +326,119 @@
     });
   }
 
+  
+  // ---- Influenza wastewater charts ----
+  // Influenza A and B are intentionally displayed as separate charts.
+  // Each Chart instance receives its own y-axis, while both charts use
+  // the same shared date scale as the influenza ED chart.
+  function renderInfluenzaWastewaterCharts(
+    fluASeries,
+    fluBSeries,
+    unit,
+    shared
+  ) {
+    const originalCanvas = document.getElementById(
+      "chart-influenza-ww"
+    );
+
+    if (!originalCanvas) return;
+
+    const container = originalCanvas.parentElement;
+
+    // Remove the single-chart layout applied by .chart-wrap.
+    container.className = "flu-wastewater-grid";
+
+    container.innerHTML = `
+      <section class="flu-wastewater-panel">
+        <h4 class="flu-wastewater-title">
+          Influenza A
+        </h4>
+        <div class="flu-wastewater-canvas-wrap">
+          <canvas
+            id="chart-flua-ww"
+            aria-label="Influenza A wastewater trend"
+            role="img"
+          ></canvas>
+        </div>
+      </section>
+
+      <section class="flu-wastewater-panel">
+        <h4 class="flu-wastewater-title">
+          Influenza B
+        </h4>
+        <div class="flu-wastewater-canvas-wrap">
+          <canvas
+            id="chart-flub-ww"
+            aria-label="Influenza B wastewater trend"
+            role="img"
+          ></canvas>
+        </div>
+      </section>
+    `;
+
+    renderWastewaterChart(
+      "flua",
+      fluASeries,
+      unit,
+      shared,
+      "chart-flua-ww",
+      PATHOGEN_META.influenza
+    );
+
+    renderWastewaterChart(
+      "flub",
+      fluBSeries,
+      unit,
+      shared,
+      "chart-flub-ww",
+      PATHOGEN_META.influenza
+    );
+  }
+  
   // ---- Wastewater chart: same shared date axis, irregular sample spacing.
   //      Optionally overlays a prior-year series (previous_points), same
   //      visual convention as ED (solid = current, dashed = prior year). ----
-  function renderWastewaterChart(key, series, unit, shared) {
-    const canvas = document.getElementById(`chart-${key}-ww`);
+  function renderWastewaterChart(
+    key,
+    series,
+    unit,
+    shared,
+    canvasId,
+    metaOverride
+  ) {
+    const resolvedCanvasId =
+      canvasId || `chart-${key}-ww`;
+
+    const canvas = document.getElementById(
+      resolvedCanvasId
+    );
+
     if (!canvas) return;
-    const meta = PATHOGEN_META[key];
+
+    const meta =
+      metaOverride ||
+      PATHOGEN_META[key];
 
     const currentPoints = series.points || [];
-    const previousPoints = series.previous_points || [];
+    const previousPoints =
+      series.previous_points || [];
 
     const datasets = [
       {
-        label: series.current_label || meta.label,
-        data: currentPoints.map((p) => ({ x: dateToEpochDay(p.date), y: p.value, actualDate: p.date })),
+        label:
+          series.current_label ||
+          series.label ||
+          meta.label,
+        data: currentPoints.map((p) => ({
+          x: dateToEpochDay(p.date),
+          y: p.value,
+          actualDate: p.date,
+        })),
         borderColor: meta.strong,
-        backgroundColor: hexToRgba(meta.strong, 0.15),
+        backgroundColor: hexToRgba(
+          meta.strong,
+          0.15
+        ),
         fill: true,
         tension: 0.25,
         pointRadius: 0,
@@ -248,11 +450,15 @@
 
     if (previousPoints.length) {
       datasets.push({
-        label: series.previous_label || "Prior year",
+        label:
+          series.previous_label ||
+          `${series.label || meta.label}, prior year`,
         data: previousPoints.map((p) => ({
-          x: dateToEpochDay(shiftToCurrentYear(p.date)),
+          x: dateToEpochDay(
+            shiftToCurrentYear(p.date)
+          ),
           y: p.value,
-          actualDate: p.date, // keep the REAL prior-year date for the tooltip
+          actualDate: p.date,
         })),
         borderColor: meta.soft,
         borderDash: [6, 4],
