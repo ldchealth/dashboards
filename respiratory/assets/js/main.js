@@ -74,7 +74,8 @@
         padding: 0.75rem;
         border: 1px solid #e2e6e9;
         border-radius: 8px;
-        background: #fff;
+        hexToRgba(meta.strong, 0.12);
+        // background: #fff;
       }
 
       .flu-wastewater-title {
@@ -112,7 +113,7 @@
   
   addInfluenzaChartStyles();
 
-  
+
   function hexToRgba(hex, alpha) {
     const h = hex.replace("#", "");
     const bigint = parseInt(h, 16);
