@@ -56,6 +56,15 @@
   Chart.defaults.font.size = 11;
   Chart.defaults.color = "#575757";
 
+  function hexToRgba(hex, alpha) {
+    const h = hex.replace("#", "");
+    const bigint = parseInt(h, 16);
+    const r = (bigint >> 16) & 255;
+    const g = (bigint >> 8) & 255;
+    const b = bigint & 255;
+    return `rgba(${r},${g},${b},${alpha})`;
+  }
+
 
   function addInfluenzaChartStyles() {
     const style = document.createElement("style");
@@ -113,15 +122,6 @@
   
   addInfluenzaChartStyles();
 
-
-  function hexToRgba(hex, alpha) {
-    const h = hex.replace("#", "");
-    const bigint = parseInt(h, 16);
-    const r = (bigint >> 16) & 255;
-    const g = (bigint >> 8) & 255;
-    const b = bigint & 255;
-    return `rgba(${r},${g},${b},${alpha})`;
-  }
 
   // ---- Fetch all three datasets ----
   Promise.all([
