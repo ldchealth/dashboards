@@ -74,7 +74,7 @@
         padding: 0.75rem;
         border: 1px solid #e2e6e9;
         border-radius: 8px;
-        hexToRgba(meta.strong, 0.12);
+        background: hexToRgba(meta.strong, 0.12);
         // background: #fff;
       }
 
