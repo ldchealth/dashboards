@@ -72,19 +72,15 @@
     style.textContent = `
       .flu-wastewater-grid {
         display: grid;
-        grid-template-columns:
-          repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 1rem;
         width: 100%;
       }
 
       .flu-wastewater-panel {
         min-width: 0;
-        padding: 0.75rem;
-        border: 1px solid #e2e6e9;
-        border-radius: 8px;
-        background: hexToRgba(meta.strong, 0.12);
-        // background: #fff;
+        padding: 0;
+        background: transparent;
       }
 
       .flu-wastewater-title {
@@ -104,6 +100,7 @@
       @media (max-width: 700px) {
         .flu-wastewater-grid {
           grid-template-columns: 1fr;
+          gap: 1.5rem;
         }
 
         .flu-wastewater-canvas-wrap {
