@@ -43,12 +43,18 @@
   --color-primary-dk: var(--ext-navy);
 
   /* Pathogen color coding — used consistently across ED + wastewater charts */
-  --covid-strong: var(--brand-orange);
+  --covid-strong: var(--brand-blue);
+  --covid-soft:   var(--brand-sky);
+  --flu-strong:   var(--ext-gray);
+  --flu-soft:     var(--brand-slate);
+  --rsv-strong:   var(--brand-orange);
+  --rsv-soft:     var(--ext-peach);
+  /* --covid-strong: var(--brand-orange);
   --covid-soft:   var(--ext-peach);
   --flu-strong:   var(--brand-blue);
   --flu-soft:     var(--brand-sky);
   --rsv-strong:   var(--ext-teal);
-  --rsv-soft:     var(--ext-green);
+  --rsv-soft:     var(--ext-green); */
 
   --radius: 14px;
   --shadow: 0 1px 2px rgba(20, 30, 40, 0.06), 0 4px 16px rgba(20, 30, 40, 0.06);
@@ -118,8 +124,8 @@ a { color: var(--color-primary); }
 }
 
 .brand__logo {
-  width: 42px;
-  height: 42px;
+  /* width: 42px; */
+  height: 48px;
   flex: none;
   border-radius: 10px;
 }
@@ -167,11 +173,16 @@ a { color: var(--color-primary); }
 .nav-toggle::after  { transform: translateY(4px); }
 
 .main-nav {
-  display: none;
-  flex-direction: column;
-  gap: 2px;
-  background: var(--color-surface);
-  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  border-top: none;
+  background: none;
+
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 32px);
+  width: 100%;
 }
 .main-nav.is-open { display: flex; }
 
