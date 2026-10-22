@@ -158,7 +158,7 @@
         ];
 
         const shared = computeSharedXAxis(
-          edSeries.dates,
+          getEdDatesForAxis(edSeries),
           fluWastewaterDates
         );
 
@@ -190,7 +190,7 @@
       ];
 
       const shared = computeSharedXAxis(
-        edSeries.dates,
+        getEdDatesForAxis(edSeries),
         wwDatesForAxis
       );
 
@@ -256,7 +256,27 @@
     box.innerHTML = sanitizeNarrativeHtml(narrativeData.html);
   }
 
-  // ---- Shared x-axis (ED weeks + wastewater samples, same range & ticks) ----
+
+
+// ---- Shared x-axis (ED weeks + wastewater samples, same range & ticks) ----
+
+  // Return every displayed ED date.
+  //
+  // Current observations use their actual dates.
+  // Prior-year observations retain their source dates in JSON and are
+  // shifted forward one calendar year only for display.
+  function getEdDatesForAxis(series) {
+    const currentPoints = series.points || [];
+    const previousPoints = series.previous_points || [];
+
+    return [
+      ...currentPoints.map((p) => p.date),
+      ...previousPoints.map((p) =>
+        shiftToCurrentYear(p.date)
+      ),
+    ];
+  }
+  
   function computeSharedXAxis(edDates, wwDates) {
     const allDays = [...edDates, ...wwDates].map(dateToEpochDay);
     const min = Math.min(...allDays);
@@ -284,45 +304,84 @@
   }
 
   // ---- ED chart: linear date axis, current vs. previous year overlaid at same x ----
-  function renderEdChart(key, series, unit, shared) {
-    const canvas = document.getElementById(`chart-${key}-ed`);
-    if (!canvas) return;
-    const meta = PATHOGEN_META[key];
-    const xs = series.dates.map(dateToEpochDay);
+// ---- ED chart: current observations and calendar-shifted prior year ----
+function renderEdChart(key, series, unit, shared) {
+  const canvas = document.getElementById(
+    `chart-${key}-ed`
+  );
 
-    new Chart(canvas.getContext("2d"), {
-      type: "line",
-      data: {
-        datasets: [
-          {
-            label: series.current_label || "Current",
-            data: xs.map((x, i) => ({ x, y: series.current[i] })),
-            borderColor: meta.strong,
-            backgroundColor: hexToRgba(meta.strong, 0.12),
-            fill: true,
-            tension: 0.3,
-            pointRadius: 0,
-            pointHoverRadius: 4,
-            borderWidth: 2.5,
-            spanGaps: true,
-          },
-          {
-            label: series.previous_label || "Previous",
-            data: xs.map((x, i) => ({ x, y: series.previous[i] })),
-            borderColor: meta.soft,
-            borderDash: [6, 4],
-            fill: false,
-            tension: 0.3,
-            pointRadius: 0,
-            pointHoverRadius: 4,
-            borderWidth: 2,
-            spanGaps: true,
-          },
-        ],
-      },
-      options: baseLineOptions(unit, shared),
+  if (!canvas) return;
+
+  const meta = PATHOGEN_META[key];
+
+  const currentPoints = series.points || [];
+  const previousPoints = series.previous_points || [];
+
+  const datasets = [
+    {
+      label: series.current_label || "Current",
+
+      data: currentPoints.map((p) => ({
+        x: dateToEpochDay(p.date),
+        y: p.value,
+        actualDate: p.date,
+      })),
+
+      borderColor: meta.strong,
+      backgroundColor: hexToRgba(meta.strong, 0.12),
+      fill: true,
+      tension: 0.3,
+      pointRadius: 0,
+      pointHoverRadius: 4,
+      borderWidth: 2.5,
+      spanGaps: true,
+
+      // Used by the tooltip filter.
+      suppressTooltip: false,
+    },
+  ];
+
+  if (previousPoints.length) {
+    datasets.push({
+      label: series.previous_label || "Previous",
+
+      data: previousPoints.map((p) => ({
+        // Shift only the displayed x-position.
+        x: dateToEpochDay(
+          shiftToCurrentYear(p.date)
+        ),
+
+        y: p.value,
+
+        // Preserve the unshifted source date if it is ever needed.
+        actualDate: p.date,
+      })),
+
+      borderColor: meta.soft,
+      borderDash: [6, 4],
+      fill: false,
+      tension: 0.3,
+      pointRadius: 0,
+
+      // The comparison line is visual context, not interactive data.
+      pointHoverRadius: 0,
+
+      borderWidth: 2,
+      spanGaps: true,
+
+      isPriorYear: true,
+      suppressTooltip: true,
     });
   }
+
+  new Chart(canvas.getContext("2d"), {
+    type: "line",
+    data: {
+      datasets,
+    },
+    options: baseLineOptions(unit, shared),
+  });
+}
 
   
   // ---- Influenza wastewater charts ----
@@ -463,10 +522,11 @@
         fill: false,
         tension: 0.25,
         pointRadius: 0,
-        pointHoverRadius: 4,
+        pointHoverRadius: 0,
         borderWidth: 2,
         spanGaps: true,
         isPriorYear: true,
+        suppressTooltip: true,
       });
     }
 
@@ -486,34 +546,62 @@
     return {
       responsive: true,
       maintainAspectRatio: false,
-      interaction: { mode: "index", intersect: false },
+
+      interaction: {
+        mode: "nearest",
+        axis: "x",
+        intersect: false,
+      },
+
       plugins: {
         legend: {
           position: "bottom",
-          labels: { boxWidth: 14, boxHeight: 3, padding: 14 },
+          labels: {
+            boxWidth: 14,
+            boxHeight: 3,
+            padding: 14,
+          },
         },
+
         tooltip: {
           backgroundColor: "#26292c",
           padding: 10,
           cornerRadius: 8,
+
+          filter: (item) =>
+            item.dataset.suppressTooltip !== true,
+
           callbacks: {
-            title: (items) => formatFullEpochDay(items[0].parsed.x),
+            title: (items) => {
+              if (!items.length) return "";
+
+              return formatFullEpochDay(
+                items[0].parsed.x
+              );
+            },
+
             label: (item) => {
-              const base = `${item.dataset.label}: ${item.parsed.y}`;
-              if (item.raw && item.raw.actualDate) {
-                return `${base} (sampled ${formatDate(item.raw.actualDate)})`;
-              }
-              return base;
+              return `${item.dataset.label}: ${item.parsed.y}`;
             },
           },
         },
       },
+
       scales: {
         x: sharedXScale(shared),
+
         y: {
           beginAtZero: true,
-          grid: { color: "#e2e6e9" },
-          title: { display: !!unit, text: unit, font: { size: 10 } },
+          grid: {
+            color: "#e2e6e9",
+          },
+          title: {
+            display: !!unit,
+            text: unit,
+            font: {
+              size: 10,
+            },
+          },
         },
       },
     };
