@@ -207,11 +207,18 @@
 
   // ---- Last updated badge ----
   function renderLastUpdated(edData, wwData, narrativeData) {
-    const dates = [edData.generated, wwData.generated, narrativeData && narrativeData.generated]
+    const dates = [
+      edData?.generated,
+      wwData?.generated,
+      narrativeData?.generated
+    ]
       .filter(Boolean)
       .sort();
-    const latest = dates[dates.length - 1];
-    document.getElementById("lastUpdated").textContent = latest ? formatDate(latest) : "unknown";
+
+    const latest = dates.at(-1);
+
+    document.getElementById("lastUpdated").textContent =
+      latest ? formatDate(latest) : "unknown";
   }
 
   // ---- Narrative summary (staff-authored, limited HTML allowed) ----
@@ -639,8 +646,16 @@ function renderEdChart(key, series, unit, shared) {
     // second tier for the year without changing the shared tick positions.
     return [formatEpochDay(epochDay), showYear ? String(year) : ""];
   }
-  function formatDate(dateStr) {
-    const d = new Date(dateStr + "T00:00:00");
-    return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+  function formatDate(dateString) {
+    const dateOnly = dateString.split("T")[0];
+    const [year, month, day] = dateOnly.split("-").map(Number);
+
+    const date = new Date(year, month - 1, day);
+
+    return date.toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric"
+    });
   }
 })();
