@@ -182,12 +182,8 @@
       const wwCurrentPoints = wwSeries.points || [];
       const wwPreviousPoints = wwSeries.previous_points || [];
 
-      const wwDatesForAxis = [
-        ...wwCurrentPoints.map((p) => p.date),
-        ...wwPreviousPoints.map((p) =>
-          shiftToCurrentYear(p.date)
-        ),
-      ];
+      const wwDatesForAxis =
+        wwCurrentPoints.map((p) => p.date);
 
       const shared = computeSharedXAxis(
         getEdDatesForAxis(edSeries),
@@ -267,14 +263,8 @@
   // shifted forward one calendar year only for display.
   function getEdDatesForAxis(series) {
     const currentPoints = series.points || [];
-    const previousPoints = series.previous_points || [];
 
-    return [
-      ...currentPoints.map((p) => p.date),
-      ...previousPoints.map((p) =>
-        shiftToCurrentYear(p.date)
-      ),
-    ];
+    return currentPoints.map((p) => p.date);
   }
   
   function computeSharedXAxis(edDates, wwDates) {
