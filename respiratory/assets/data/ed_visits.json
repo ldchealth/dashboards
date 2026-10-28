@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-22T00:00:00",
+  "generated": "2026-10-28T00:00:00",
   "unit": "Percentage (%) of ED Visits",
   "illnesses": [
     {
@@ -8,10 +8,6 @@
       "current_label": "Current (Oct 2025\u2013Oct 2026)",
       "previous_label": "Prior year (Oct 2024\u2013Oct 2025)",
       "points": [
-        {
-          "date": "2025-10-12",
-          "value": 0.144
-        },
         {
           "date": "2025-10-19",
           "value": 0.434
@@ -214,18 +210,18 @@
         },
         {
           "date": "2026-10-04",
-          "value": 0.521
+          "value": 0.522
         },
         {
           "date": "2026-10-11",
-          "value": 0.184
+          "value": 0.183
+        },
+        {
+          "date": "2026-10-18",
+          "value": 0.495
         }
       ],
       "previous_points": [
-        {
-          "date": "2024-10-20",
-          "value": 1.163
-        },
         {
           "date": "2024-10-27",
           "value": 0.463
@@ -425,6 +421,10 @@
         {
           "date": "2025-10-05",
           "value": 0.931
+        },
+        {
+          "date": "2025-10-12",
+          "value": 0.144
         }
       ]
     },
@@ -434,10 +434,6 @@
       "current_label": "Current (Oct 2025\u2013Oct 2026)",
       "previous_label": "Prior year (Oct 2024\u2013Oct 2025)",
       "points": [
-        {
-          "date": "2025-10-12",
-          "value": 0.576
-        },
         {
           "date": "2025-10-19",
           "value": 0.0
@@ -640,18 +636,18 @@
         },
         {
           "date": "2026-10-04",
-          "value": 0.521
+          "value": 0.522
         },
         {
           "date": "2026-10-11",
           "value": 0.092
+        },
+        {
+          "date": "2026-10-18",
+          "value": 0.198
         }
       ],
       "previous_points": [
-        {
-          "date": "2024-10-20",
-          "value": 0.0
-        },
         {
           "date": "2024-10-27",
           "value": 0.0
@@ -851,6 +847,10 @@
         {
           "date": "2025-10-05",
           "value": 0.532
+        },
+        {
+          "date": "2025-10-12",
+          "value": 0.576
         }
       ]
     },
@@ -860,10 +860,6 @@
       "current_label": "Current (Oct 2025\u2013Oct 2026)",
       "previous_label": "Prior year (Oct 2024\u2013Oct 2025)",
       "points": [
-        {
-          "date": "2025-10-12",
-          "value": 0.0
-        },
         {
           "date": "2025-10-19",
           "value": 0.0
@@ -1071,13 +1067,13 @@
         {
           "date": "2026-10-11",
           "value": 0.092
+        },
+        {
+          "date": "2026-10-18",
+          "value": 0.099
         }
       ],
       "previous_points": [
-        {
-          "date": "2024-10-20",
-          "value": 0.0
-        },
         {
           "date": "2024-10-27",
           "value": 0.0
@@ -1276,6 +1272,10 @@
         },
         {
           "date": "2025-10-05",
+          "value": 0.0
+        },
+        {
+          "date": "2025-10-12",
           "value": 0.0
         }
       ]
