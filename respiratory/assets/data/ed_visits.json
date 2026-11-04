@@ -1,17 +1,13 @@
 {
-  "generated": "2026-10-28T00:00:00",
+  "generated": "2026-11-04T00:00:00",
   "unit": "Percentage (%) of ED Visits",
   "illnesses": [
     {
       "key": "covid",
       "label": "COVID-19",
       "current_label": "Current (Oct 2025\u2013Oct 2026)",
-      "previous_label": "Prior year (Oct 2024\u2013Oct 2025)",
+      "previous_label": "Prior year (Nov 2024\u2013Oct 2025)",
       "points": [
-        {
-          "date": "2025-10-19",
-          "value": 0.434
-        },
         {
           "date": "2025-10-26",
           "value": 0.298
@@ -214,18 +210,18 @@
         },
         {
           "date": "2026-10-11",
-          "value": 0.183
+          "value": 0.184
         },
         {
           "date": "2026-10-18",
-          "value": 0.495
+          "value": 0.494
+        },
+        {
+          "date": "2026-10-25",
+          "value": 0.55
         }
       ],
       "previous_points": [
-        {
-          "date": "2024-10-27",
-          "value": 0.463
-        },
         {
           "date": "2024-11-03",
           "value": 0.151
@@ -425,6 +421,10 @@
         {
           "date": "2025-10-12",
           "value": 0.144
+        },
+        {
+          "date": "2025-10-19",
+          "value": 0.434
         }
       ]
     },
@@ -432,12 +432,8 @@
       "key": "influenza",
       "label": "Influenza",
       "current_label": "Current (Oct 2025\u2013Oct 2026)",
-      "previous_label": "Prior year (Oct 2024\u2013Oct 2025)",
+      "previous_label": "Prior year (Nov 2024\u2013Oct 2025)",
       "points": [
-        {
-          "date": "2025-10-19",
-          "value": 0.0
-        },
         {
           "date": "2025-10-26",
           "value": 0.149
@@ -645,13 +641,13 @@
         {
           "date": "2026-10-18",
           "value": 0.198
+        },
+        {
+          "date": "2026-10-25",
+          "value": 0.825
         }
       ],
       "previous_points": [
-        {
-          "date": "2024-10-27",
-          "value": 0.0
-        },
         {
           "date": "2024-11-03",
           "value": 0.453
@@ -851,6 +847,10 @@
         {
           "date": "2025-10-12",
           "value": 0.576
+        },
+        {
+          "date": "2025-10-19",
+          "value": 0.0
         }
       ]
     },
@@ -858,12 +858,8 @@
       "key": "rsv",
       "label": "RSV",
       "current_label": "Current (Oct 2025\u2013Oct 2026)",
-      "previous_label": "Prior year (Oct 2024\u2013Oct 2025)",
+      "previous_label": "Prior year (Nov 2024\u2013Oct 2025)",
       "points": [
-        {
-          "date": "2025-10-19",
-          "value": 0.0
-        },
         {
           "date": "2025-10-26",
           "value": 0.149
@@ -1071,13 +1067,13 @@
         {
           "date": "2026-10-18",
           "value": 0.099
+        },
+        {
+          "date": "2026-10-25",
+          "value": 0.0
         }
       ],
       "previous_points": [
-        {
-          "date": "2024-10-27",
-          "value": 0.0
-        },
         {
           "date": "2024-11-03",
           "value": 0.0
@@ -1276,6 +1272,10 @@
         },
         {
           "date": "2025-10-12",
+          "value": 0.0
+        },
+        {
+          "date": "2025-10-19",
           "value": 0.0
         }
       ]
