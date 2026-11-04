@@ -361,13 +361,13 @@ function renderEdChart(key, series, unit, shared) {
       pointRadius: 0,
 
       // The comparison line is visual context, not interactive data.
-      pointHoverRadius: 0,
+      pointHoverRadius: 4,
 
       borderWidth: 2,
       spanGaps: true,
 
       isPriorYear: true,
-      suppressTooltip: true,
+      suppressTooltip: false,
     });
   }
 
@@ -519,11 +519,11 @@ function renderEdChart(key, series, unit, shared) {
         fill: false,
         tension: 0.25,
         pointRadius: 0,
-        pointHoverRadius: 0,
+        pointHoverRadius: 4,
         borderWidth: 2,
         spanGaps: true,
         isPriorYear: true,
-        suppressTooltip: true,
+        suppressTooltip: false,
       });
     }
 
@@ -565,16 +565,23 @@ function renderEdChart(key, series, unit, shared) {
           padding: 10,
           cornerRadius: 8,
 
-          filter: (item) =>
-            item.dataset.suppressTooltip !== true,
-
           callbacks: {
             title: (items) => {
               if (!items.length) return "";
 
-              return formatFullEpochDay(
-                items[0].parsed.x
-              );
+              const item = items[0];
+              const actualDate = item.raw?.actualDate;
+
+              if (actualDate) {
+                const d = new Date(actualDate + "T00:00:00");
+                return d.toLocaleDateString(undefined, {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                });
+              }
+
+              return formatFullEpochDay(item.parsed.x);
             },
 
             label: (item) => {
