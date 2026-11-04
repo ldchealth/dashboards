@@ -222,7 +222,11 @@
   }
 
   // ---- Narrative summary (staff-authored, limited HTML allowed) ----
-  const ALLOWED_NARRATIVE_TAGS = ["b", "i", "hr", "br", "strong", "em", "u", "p"];
+  const ALLOWED_NARRATIVE_TAGS = [
+  "b", "i", "hr", "br",
+  "strong", "em", "u", "p",
+  "ul", "ol", "li", "a"
+];
 
   function sanitizeNarrativeHtml(raw, allowedTags) {
     allowedTags = allowedTags || ALLOWED_NARRATIVE_TAGS;
@@ -240,7 +244,27 @@
             while (child.firstChild) node.insertBefore(child.firstChild, child);
             node.removeChild(child);
           } else {
-            Array.from(child.attributes).forEach((attr) => child.removeAttribute(attr.name));
+            if (tag === "a") {
+              const href = child.getAttribute("href");
+
+              Array.from(child.attributes).forEach((attr) =>
+                child.removeAttribute(attr.name)
+              );
+
+              if (
+                href &&
+                (href.startsWith("https://") ||
+                href.startsWith("http://"))
+              ) {
+                child.setAttribute("href", href);
+                child.setAttribute("target", "_blank");
+                child.setAttribute("rel", "noopener noreferrer");
+              }
+            } else {
+              Array.from(child.attributes).forEach((attr) =>
+                child.removeAttribute(attr.name)
+              );
+            }
           }
         }
       });
