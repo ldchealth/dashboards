@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-18T00:00:00",
+  "generated": "2026-11-24T00:00:00",
   "unit": "Percentage (%) of ED Visits",
   "illnesses": [
     {
@@ -8,10 +8,6 @@
       "current_label": "Current (Nov 2025\u2013Nov 2026)",
       "previous_label": "Prior year (Nov 2024\u2013Nov 2025)",
       "points": [
-        {
-          "date": "2025-11-09",
-          "value": 0.56
-        },
         {
           "date": "2025-11-16",
           "value": 0.587
@@ -210,7 +206,7 @@
         },
         {
           "date": "2026-10-25",
-          "value": 0.547
+          "value": 0.545
         },
         {
           "date": "2026-11-01",
@@ -218,7 +214,11 @@
         },
         {
           "date": "2026-11-08",
-          "value": 0.182
+          "value": 0.181
+        },
+        {
+          "date": "2026-11-15",
+          "value": 0.865
         }
       ],
       "previous_points": [
@@ -425,6 +425,10 @@
         {
           "date": "2025-11-02",
           "value": 0.281
+        },
+        {
+          "date": "2025-11-09",
+          "value": 0.56
         }
       ]
     },
@@ -434,10 +438,6 @@
       "current_label": "Current (Nov 2025\u2013Nov 2026)",
       "previous_label": "Prior year (Nov 2024\u2013Nov 2025)",
       "points": [
-        {
-          "date": "2025-11-09",
-          "value": 0.14
-        },
         {
           "date": "2025-11-16",
           "value": 0.147
@@ -632,11 +632,11 @@
         },
         {
           "date": "2026-10-18",
-          "value": 0.198
+          "value": 0.197
         },
         {
           "date": "2026-10-25",
-          "value": 0.912
+          "value": 0.909
         },
         {
           "date": "2026-11-01",
@@ -645,6 +645,10 @@
         {
           "date": "2026-11-08",
           "value": 0.363
+        },
+        {
+          "date": "2026-11-15",
+          "value": 1.25
         }
       ],
       "previous_points": [
@@ -851,6 +855,10 @@
         {
           "date": "2025-11-02",
           "value": 0.281
+        },
+        {
+          "date": "2025-11-09",
+          "value": 0.14
         }
       ]
     },
@@ -860,10 +868,6 @@
       "current_label": "Current (Nov 2025\u2013Nov 2026)",
       "previous_label": "Prior year (Nov 2024\u2013Nov 2025)",
       "points": [
-        {
-          "date": "2025-11-09",
-          "value": 0.0
-        },
         {
           "date": "2025-11-16",
           "value": 0.0
@@ -1071,6 +1075,10 @@
         {
           "date": "2026-11-08",
           "value": 0.0
+        },
+        {
+          "date": "2026-11-15",
+          "value": 0.192
         }
       ],
       "previous_points": [
@@ -1277,6 +1285,10 @@
         {
           "date": "2025-11-02",
           "value": 0.14
+        },
+        {
+          "date": "2025-11-09",
+          "value": 0.0
         }
       ]
     }
